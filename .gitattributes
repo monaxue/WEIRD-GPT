@@ -1,0 +1,2 @@
+V1/GPT_3.5/WVS/WVS[[:space:]]GPT[[:space:]]R/WVS_Cross-National_Wave_7_csv_v5_0.csv filter=lfs diff=lfs merge=lfs -text
+V1/WVS[[:space:]]GPT/.RData filter=lfs diff=lfs merge=lfs -text
