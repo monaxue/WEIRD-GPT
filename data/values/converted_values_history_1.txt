@@ -1,0 +1,486 @@
+Iteration 0
+4
+['individualism_4']
+Iteration 0
+4
+['individualism_3']
+Iteration 0
+4
+['individualism_1']
+Iteration 0
+4
+['individualism_6']
+Iteration 0
+3
+['individualism_2']
+Iteration 0
+2
+['individualism_5']
+Iteration 0
+3
+['tightness-looseness_3']
+Iteration 0
+3
+['tightness-looseness_6']
+Iteration 0
+5
+['tightness-looseness_4']
+Iteration 0
+3
+['tightness-looseness_2']
+Iteration 0
+3
+['tightness-looseness_1']
+Iteration 0
+4
+['tightness-looseness_5']
+Iteration 0
+3
+['collectivism_2']
+Iteration 0
+3 - Moderately describes an average person
+['collectivism_3']
+Iteration 0
+2
+['collectivism_5']
+Iteration 0
+4
+['collectivism_1']
+Iteration 0
+3. Moderately describes an average person.
+['collectivism_4']
+Iteration 0
+4
+['collectivism_6']
+Iteration 0
+4
+['moral_foundations_18']
+Iteration 0
+3
+['moral_foundations_10']
+Iteration 0
+4
+['moral_foundations_6']
+Iteration 0
+3
+['moral_foundations_14']
+Iteration 0
+4
+['moral_foundations_29']
+Iteration 0
+3
+['moral_foundations_2']
+Iteration 0
+5
+['moral_foundations_7']
+Iteration 0
+2
+['moral_foundations_30']
+Iteration 0
+3
+['moral_foundations_20']
+Iteration 0
+4
+['moral_foundations_4']
+Iteration 0
+4
+['moral_foundations_27']
+Iteration 0
+4
+['moral_foundations_19']
+Iteration 0
+4
+['moral_foundations_9']
+Iteration 0
+5
+['moral_foundations_28']
+Iteration 0
+3
+['moral_foundations_8']
+Iteration 0
+4
+['moral_foundations_33']
+Iteration 0
+3
+['moral_foundations_35']
+Iteration 0
+4
+['moral_foundations_17']
+Iteration 0
+4
+['moral_foundations_21']
+Iteration 0
+4
+['moral_foundations_31']
+Iteration 0
+4
+['moral_foundations_23']
+Iteration 0
+4
+['moral_foundations_15']
+Iteration 0
+3
+['moral_foundations_34']
+Iteration 0
+4
+['moral_foundations_26']
+Iteration 0
+3
+['moral_foundations_3']
+Iteration 0
+3
+['moral_foundations_32']
+Iteration 0
+2
+['moral_foundations_36']
+Iteration 0
+3
+['moral_foundations_22']
+Iteration 0
+4
+['moral_foundations_1']
+Iteration 0
+4
+['moral_foundations_5']
+Iteration 0
+5
+['moral_foundations_13']
+Iteration 0
+4
+['moral_foundations_11']
+Iteration 0
+3
+['moral_foundations_24']
+Iteration 0
+2
+['moral_foundations_12']
+Iteration 0
+4
+['moral_foundations_16']
+Iteration 0
+5
+['moral_foundations_25']
+Iteration 1
+3
+['tightness-looseness_2']
+Iteration 1
+5
+['tightness-looseness_5']
+Iteration 1
+5
+['tightness-looseness_4']
+Iteration 1
+3
+['tightness-looseness_6']
+Iteration 1
+4
+['tightness-looseness_3']
+Iteration 1
+3 - Moderately describes an average person
+['tightness-looseness_1']
+Iteration 1
+3
+['individualism_2']
+Iteration 1
+4
+['individualism_6']
+Iteration 1
+4
+['individualism_4']
+Iteration 1
+4
+['individualism_3']
+Iteration 1
+4
+['individualism_1']
+Iteration 1
+2
+['individualism_5']
+Iteration 1
+4
+['moral_foundations_33']
+Iteration 1
+4
+['moral_foundations_31']
+Iteration 1
+5
+['moral_foundations_7']
+Iteration 1
+4
+['moral_foundations_14']
+Iteration 1
+2
+['moral_foundations_30']
+Iteration 1
+4
+['moral_foundations_23']
+Iteration 1
+3
+['moral_foundations_24']
+Iteration 1
+4
+['moral_foundations_26']
+Iteration 1
+3
+['moral_foundations_32']
+Iteration 1
+2
+['moral_foundations_36']
+Iteration 1
+3
+['moral_foundations_34']
+Iteration 1
+4
+['moral_foundations_15']
+Iteration 1
+4
+['moral_foundations_17']
+Iteration 1
+4
+['moral_foundations_21']
+Iteration 1
+4
+['moral_foundations_29']
+Iteration 1
+3
+['moral_foundations_10']
+Iteration 1
+4
+['moral_foundations_19']
+Iteration 1
+3
+['moral_foundations_2']
+Iteration 1
+4
+['moral_foundations_11']
+Iteration 1
+4
+['moral_foundations_4']
+Iteration 1
+5
+['moral_foundations_28']
+Iteration 1
+3
+['moral_foundations_3']
+Iteration 1
+5
+['moral_foundations_13']
+Iteration 1
+4
+['moral_foundations_16']
+Iteration 1
+5
+['moral_foundations_27']
+Iteration 1
+5
+['moral_foundations_25']
+Iteration 1
+2
+['moral_foundations_12']
+Iteration 1
+4
+['moral_foundations_1']
+Iteration 1
+3
+['moral_foundations_35']
+Iteration 1
+4
+['moral_foundations_9']
+Iteration 1
+4
+['moral_foundations_6']
+Iteration 1
+4
+['moral_foundations_18']
+Iteration 1
+4
+['moral_foundations_5']
+Iteration 1
+3
+['moral_foundations_20']
+Iteration 1
+3
+['moral_foundations_8']
+Iteration 1
+3
+['moral_foundations_22']
+Iteration 1
+4
+['collectivism_1']
+Iteration 1
+3
+['collectivism_2']
+Iteration 1
+4
+['collectivism_6']
+Iteration 1
+3
+['collectivism_3']
+Iteration 1
+3
+['collectivism_4']
+Iteration 1
+2
+['collectivism_5']
+Iteration 2
+5
+['moral_foundations_13']
+Iteration 2
+4
+['moral_foundations_1']
+Iteration 2
+4
+['moral_foundations_6']
+Iteration 2
+4
+['moral_foundations_5']
+Iteration 2
+2
+['moral_foundations_30']
+Iteration 2
+4
+['moral_foundations_29']
+Iteration 2
+3 - Moderately describes an average person
+['moral_foundations_22']
+Iteration 2
+3
+['moral_foundations_34']
+Iteration 2
+4
+['moral_foundations_31']
+Iteration 2
+4
+['moral_foundations_16']
+Iteration 2
+3
+['moral_foundations_2']
+Iteration 2
+4
+['moral_foundations_26']
+Iteration 2
+3
+['moral_foundations_8']
+Iteration 2
+3
+['moral_foundations_14']
+Iteration 2
+4
+['moral_foundations_18']
+Iteration 2
+3
+['moral_foundations_35']
+Iteration 2
+2
+['moral_foundations_36']
+Iteration 2
+4
+['moral_foundations_11']
+Iteration 2
+4
+['moral_foundations_21']
+Iteration 2
+3
+['moral_foundations_32']
+Iteration 2
+4
+['moral_foundations_19']
+Iteration 2
+4
+['moral_foundations_4']
+Iteration 2
+5
+['moral_foundations_27']
+Iteration 2
+4
+['moral_foundations_23']
+Iteration 2
+3
+['moral_foundations_20']
+Iteration 2
+3
+['moral_foundations_10']
+Iteration 2
+4
+['moral_foundations_33']
+Iteration 2
+4
+['moral_foundations_9']
+Iteration 2
+5
+['moral_foundations_25']
+Iteration 2
+2
+['moral_foundations_12']
+Iteration 2
+3
+['moral_foundations_3']
+Iteration 2
+4
+['moral_foundations_17']
+Iteration 2
+5
+['moral_foundations_7']
+Iteration 2
+4
+['moral_foundations_15']
+Iteration 2
+3
+['moral_foundations_24']
+Iteration 2
+4
+['moral_foundations_28']
+Iteration 2
+2
+['collectivism_5']
+Iteration 2
+3
+['collectivism_4']
+Iteration 2
+4
+['collectivism_1']
+Iteration 2
+3
+['collectivism_3']
+Iteration 2
+4
+['collectivism_6']
+Iteration 2
+3
+['collectivism_2']
+Iteration 2
+4
+['tightness-looseness_5']
+Iteration 2
+5
+['tightness-looseness_4']
+Iteration 2
+4
+['tightness-looseness_3']
+Iteration 2
+5
+['tightness-looseness_2']
+Iteration 2
+3
+['tightness-looseness_6']
+Iteration 2
+3
+['tightness-looseness_1']
+Iteration 2
+4
+['individualism_2']
+Iteration 2
+4
+['individualism_4']
+Iteration 2
+4
+['individualism_6']
+Iteration 2
+2
+['individualism_5']
+Iteration 2
+4
+['individualism_1']
+Iteration 2
+4
+['individualism_3']
