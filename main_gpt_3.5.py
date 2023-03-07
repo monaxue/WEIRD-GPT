@@ -9,33 +9,59 @@ import pickle
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #output files
-output_df = "gpt_3.5_cognitive_test.xlsx"
+output_df = "gpt_3.5_values_test_2.xlsx"
 
 # File for history
-history_file = open("cognitive_history_3.5_test.txt", "a")
-all_answer_file = open('all_answers_cognitive_3.5_test.pickle', 'ab')
+history_file = open("values_history_3.5_test_2.txt", "a")
+all_answers_file = open('all_answers_values_3.5_test_2.pickle', 'ab')
 
 # some parameters
 model_engine = "gpt-3.5-turbo"
-iterations = 3
+iterations = 2
 count=0
 n = 1
 
 # import questions/parameters from the questions python file
-import cognitive_questions_2
-survey_items_names = cognitive_questions_2.survey_items_names
-number_of_items = cognitive_questions_2.number_of_items
-survey_items = cognitive_questions_2.survey_items
-df = cognitive_questions_2.df_i.copy()
+import values_questions
+survey_items_names = values_questions.survey_items_names
+number_of_items = values_questions.number_of_items
+survey_items = values_questions.survey_items
+df = values_questions.df_i.copy()
 
+# Create class for storing all the data in a easy to manipuate format in the future. The data is eventually stored in  pickle file.
 class Answer:
-    def __init__(self,iteration,master_name,names_list,full_answer,answer_list):
+    def __init__(self,iteration,master_name,names_list,full_answer,answers_list):
         self.iteration = iteration
         self.master_name = master_name
         self.names_list = names_list
         self.full_answer = full_answer
-        self.answer_list = answer_list
+        self.answers_list = answers_list
 
+# For cognitive tasks: function for matching question answers to questions names according to list number
+def sub_numb(answer):
+    period_ind = answer[:5].find('.')
+    first_ind = period_ind
+    colon_ind = answer[:5].find(':')
+    dash_ind = answer[:5].find('-')
+    first_ind = min((ind for ind in [period_ind, colon_ind, dash_ind] if ind != -1), default=-1)
+    
+    if first_ind == -1:  # period, colon, and dash not found in the first 5 characters
+        return 'na'
+    else:
+        return answer[:first_ind].strip()
+
+# For values survey: fuctions for removing extra words after the numerical answer    
+def remove_extra(answer):
+    period_ind = answer[:5].find('.')
+    colon_ind = answer[:5].find(':')
+    dash_ind = answer[:5].find('-')
+    paren_ind = answer[:5].find('(')
+    first_ind = min((ind for ind in [period_ind, colon_ind, dash_ind, paren_ind] if ind != -1), default=-1)
+    
+    if first_ind == -1:  # period, colon, and dash not found in the first 5 characters
+        return answer.strip()
+    else:
+        return answer[:first_ind].strip()
 
 # Run ths study
 while count < iterations:
@@ -54,9 +80,11 @@ while count < iterations:
                     model=model_engine,
                     messages=[{"role": "user", "content": str(item) 
                     
-                    #+ " Please only answer with a single number." ## For answers that only have one number to report (instead of a list of numbers or other answers).
+                    ## For answers that only have one number to report (instead of a list of numbers or other answers).
+                    + " Please only answer with a single number." 
                     
-                    + " Please, do not use commas or and to separate out different answers. Instead, put each answer on a separate line in a enumerated list in the form. For instance, each line should first have the line number, followed by a period, followed by a space, then followed by the answer." ## For questions that come in a list form.
+                    ## For questions that come in a list form.
+                    #+ " Please, do not use commas or and to separate out different answers. Instead, put each answer on a separate line in a enumerated list in the form. For instance, each line should first have the line number, followed by a period, followed by a space, then followed by the answer." 
                     }]
                     ,
                     max_tokens=2048,
@@ -65,18 +93,27 @@ while count < iterations:
                     stop=None,
                     temperature=1.0
                 )
-                answers_list = [answer for answer in response['choices'][0]['message']['content'].split('\n') if answer != ""]
+                ## answer list for cognitive task
+                #answers_list = [answer for answer in response['choices'][0]['message']['content'].split('\n') if answer != ""]
+                
+                ## asnwer list for values survey
+                answers_list = [remove_extra(answer) for answer in response['choices'][0]['message']['content'].split('\n') if answer != ""]
+                
                 if len(answers_list) > 1:
                     names_list = [None] * len(answers_list)
-                    names_list = [str(master_name) + "_" + str(sub_num+1) for sub_num in range(len(answers_list))]
+
+                    ##values
+                    names_list = [str(master_name) + "_" + str(sub_num+1) for sub_num in range(len(answers_list))] 
+
+                    ##cognitive
+                    #names_list = [str(master_name) + "_" + str(sub_numb(answer)) for answer in answers_list] 
                 else:
                     names_list = [master_name]
 
-                answer = Answer(iteration = count, master_name = master_name, names_list = names_list, full_answer = response['choices'][0]['message']['content'], answer_list = answers_list)
-                pickle.dump(answer, all_answer_file)
-
-                for c in range(len(answers_list)):
-                    df.loc[count, names_list[c]] = answers_list[c]
+                answer = Answer(iteration = count, master_name = master_name, names_list = names_list, full_answer = response['choices'][0]['message']['content'], answers_list = answers_list)
+                pickle.dump(answer, all_answers_file)
+                
+                df.loc[count, names_list] = answers_list
                 df.to_excel(output_df, index=False)
                 
                 success_message = 'Iteration: '+str(count) + "\nMaster_name: " + str(master_name) + "\nSuccess" +"\n" #+ "\nNames_list: " + str(names_list) + "\nAnswers_list: " + str(answers_list) + "\n"
@@ -95,7 +132,7 @@ while count < iterations:
     count +=1
         
 history_file.close
-all_answer_file.close
+all_answers_file.close
 
 ## make dataframe from all_answers
 # for answer in all_answers:
