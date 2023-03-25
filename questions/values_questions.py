@@ -1,0 +1,141 @@
+# This is different than cognitive_questions.py becauase this uses the origianl inclusion tasks, instead of the ones we created.
+
+import pandas as pd
+
+# task 1
+survey1_names = ["moral_foundations_1", "moral_foundations_2", "moral_foundations_3", "moral_foundations_4", "moral_foundations_5", "moral_foundations_6", "moral_foundations_7", "moral_foundations_8", "moral_foundations_9", "moral_foundations_10", "moral_foundations_11", "moral_foundations_12", "moral_foundations_13", "moral_foundations_14", "moral_foundations_15", "moral_foundations_16", "moral_foundations_17", "moral_foundations_18", "moral_foundations_19", "moral_foundations_20", "moral_foundations_21", "moral_foundations_22", "moral_foundations_23", "moral_foundations_24", "moral_foundations_25", "moral_foundations_26", "moral_foundations_27", "moral_foundations_28", "moral_foundations_29", "moral_foundations_30", "moral_foundations_31", "moral_foundations_32", "moral_foundations_33", "moral_foundations_34", "moral_foundations_35", "moral_foundations_36"]
+survey1_subitems = [
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nCaring for people who have suffered is an important virtue.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nThe world would be a better place if everyone made the same amount of money.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think people who are more hard-working should end up with more money.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think children should be taught to be loyal to their country.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think it is important for societies to cherish their traditional values.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think the human body should be treated like a temple, housing something sacred within.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe that compassion for those who are suffering is one of the most crucial virtues.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nOur society would have fewer problems if people had the same income.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think people should be rewarded in proportion to what they contribute.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt upsets me when people have no loyalty to their country.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI feel that most traditions serve a valuable function in keeping society orderly.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe chastity is an important virtue.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nWe should all care for people who are in emotional pain.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe that everyone should be given the same quantity of resources in life.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nThe effort a worker puts into a job ought to be reflected in the size of a raise they receive.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nEveryone should love their own community.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think obedience to parents is an important virtue.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt upsets me when people use foul language like it is nothing.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI am empathetic toward those people who have suffered in their lives.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe it would be ideal if everyone in society wound up with roughly the same amount of money.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt makes me happy when people are recognized on their merits.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nEveryone should defend their country, if called upon.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nWe all need to learn from our elders.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIf I found out that an acquaintance had an unusual but harmless sexual fetish I would feel uneasy about them.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nEveryone should try to comfort people who are going through something hard.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nWhen people work together toward a common goal, they should share the rewards equally, even if some worked harder on it.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIn a fair society, those who work hard should live with higher standards of living.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nEveryone should feel proud when a person in their community wins in an international competition.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe that one of the most important values to teach children is to have respect for authority.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nPeople should try to use natural medicines rather than chemically identical human-made ones.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt pains me when I see someone ignoring the needs of another human being.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI get upset when some people have a lot more money than others in my country.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI feel good when I see cheaters get caught and punished.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI believe the strength of a sports team comes from the loyalty of its members to each other.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI think having a strong leader is good for society.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI admire people who keep their virginity until marriage."
+]
+
+# task 2
+survey2_names = ["individualism_1", "individualism_2", "individualism_3", "individualism_4", "individualism_5", "individualism_6"]
+survey2_items = [
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt is very important to me to express my views even when they differ from those of my friends.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt is very important to me to live according to my own principles and not be bound by tradition or principles defined by others.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nThe best decisions are the ones I make on my own.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI determine my own destiny.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI feel uncomfortable being like others in my group.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nMy lifestyle is none of my extended family’s business."]
+
+# task 3
+survey3_names = ['collectivism_1', 'collectivism_2', 'collectivism_3', 'collectivism_4', 'collectivism_5', 'collectivism_6']
+survey3_items = [
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIn general, I accept the decisions made by my group.",
+   
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nWhen I try to understand an event, the first thing that I consider is its implications for my group – the people who I care about.",
+   
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIt often happens that the interests of my group coincide with my own interests.",
+   
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nWhatever is good for my group is good for me.",
+   
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIf you know what groups I belong to, you know who I am.",
+   
+   "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nI try to understand the needs and wants of my group and act to fulfill them."
+]
+
+# task 4
+survey4_names = ['tightness-looseness_1', 'tightness-looseness_2', 'tightness-looseness_3', 'tightness-looseness_4', 'tightness-looseness_5', 'tightness-looseness_6']
+survey4_items = [
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nThere are many social norms that people are supposed to abide by in this country.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIn this country, there are very clear expectations for how people should act in most situations.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nPeople agree upon what behaviors are appropriate versus inappropriate in most situations in this country.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nPeople in this country have a great deal of freedom in deciding how they want to behave in most situations.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nIn this country, if someone acts in an inappropriate way, others will strongly disapprove.",
+    
+    "For the statement below, please indicate how well the statement describes an average person. Respond on a scale from 1 to 5 where 1 is “Does not describe an average person at all”, 2 is “Slightly describes an average person”, 3 is “Moderately describes an average person”, 4 is “Describes an average person fairly well”, and 5 is “Describes an average person extremely well”.\nPeople in this community almost always comply with social norms."
+    ]
+
+# task 5
+survey_items_names = [survey1_names, survey2_names, survey3_names, survey4_names]
+survey_items = [survey1_subitems, survey2_items, survey3_items, survey4_items]
+
+number_of_items = len(survey_items)
+
+df_i = pd.DataFrame(columns= [
+    'moral_foundations_1', 'moral_foundations_2', 'moral_foundations_3', 'moral_foundations_4', 'moral_foundations_5', 'moral_foundations_6', 'moral_foundations_7', 'moral_foundations_8', 'moral_foundations_9', 'moral_foundations_10', 'moral_foundations_11', 'moral_foundations_12', 'moral_foundations_13', 'moral_foundations_14', 'moral_foundations_15', 'moral_foundations_16', 'moral_foundations_17', 'moral_foundations_18', 'moral_foundations_19', 'moral_foundations_20', 'moral_foundations_21', 'moral_foundations_22', 'moral_foundations_23', 'moral_foundations_24', 'moral_foundations_25', 'moral_foundations_26', 'moral_foundations_27', 'moral_foundations_28', 'moral_foundations_29', 'moral_foundations_30', 'moral_foundations_31', 'moral_foundations_32', 'moral_foundations_33', 'moral_foundations_34', 'moral_foundations_35', 'moral_foundations_36',
+
+    'individualism_1', 'individualism_2', 'individualism_3', 'individualism_4', 'individualism_5', 'individualism_6', 
+
+    'collectivism_1', 'collectivism_2', 'collectivism_3', 'collectivism_4', 'collectivism_5', 'collectivism_6',
+
+    'tightness-looseness_1', 'tightness-looseness_2', 'tightness-looseness_3', 'tightness-looseness_4', 'tightness-looseness_5', 'tightness-looseness_6'])
