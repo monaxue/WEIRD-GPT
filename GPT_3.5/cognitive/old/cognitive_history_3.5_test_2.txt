@@ -1,0 +1,456 @@
+Iteration: 0
+Master_name: triad
+Success
+Iteration: 0
+Master_name: attribution_5
+Success
+Iteration: 0
+Master_name: attribution_3
+Success
+Iteration: 0
+Master_name: attribution_2
+Success
+Iteration: 0
+Master_name: attribution_4
+Success
+Iteration: 0
+Master_name: attribution_6
+Success
+Iteration: 0
+Master_name: attribution_1
+Success
+Iteration: 0
+Master_name: creativity
+Success
+Iteration: 0
+Master_name: self
+Success
+Iteration: 0
+Master_name: inclusion_5
+Success
+Iteration: 0
+Master_name: inclusion_1
+Success
+Iteration: 0
+Master_name: inclusion_3
+Success
+Iteration: 0
+Master_name: inclusion_10
+Success
+Iteration: 0
+Master_name: inclusion_6
+Success
+Iteration: 0
+Master_name: inclusion_8
+Success
+Iteration: 0
+Master_name: inclusion_4
+Success
+Iteration: 0
+Master_name: inclusion_9
+Success
+Iteration: 0
+Master_name: inclusion_2
+Success
+Iteration: 0
+Master_name: inclusion_7
+Success
+Iteration: 1
+Master_name: inclusion_2
+Success
+Iteration: 1
+Master_name: inclusion_6
+Success
+Iteration: 1
+Master_name: inclusion_1
+Success
+Iteration: 1
+Master_name: inclusion_7
+Success
+Iteration: 1
+Master_name: inclusion_8
+Success
+Iteration: 1
+Master_name: inclusion_3
+Success
+Iteration: 1
+Master_name: inclusion_9
+Success
+Iteration: 1
+Master_name: inclusion_5
+Success
+Iteration: 1
+Master_name: inclusion_4
+Success
+Iteration: 1
+Master_name: inclusion_10
+Success
+Iteration: 1
+Master_name: attribution_2
+Success
+Iteration: 1
+Master_name: attribution_3
+Success
+Iteration: 1
+Master_name: attribution_5
+Success
+Iteration: 1
+Master_name: attribution_1
+Success
+Iteration: 1
+Master_name: attribution_4
+Success
+Iteration: 1
+Master_name: attribution_6
+Success
+Iteration: 1
+Master_name: self
+Success
+Iteration: 1
+Master_name: triad
+Success
+Iteration: 1
+Master_name: creativity
+Success
+Iteration: 2
+Master_name: inclusion_1
+Success
+Iteration: 2
+Master_name: inclusion_6
+Success
+Iteration: 2
+Master_name: inclusion_8
+Success
+Iteration: 2
+Master_name: inclusion_7
+Success
+Iteration: 2
+Master_name: inclusion_5
+Success
+Iteration: 2
+Master_name: inclusion_3
+Success
+Iteration: 2
+Master_name: inclusion_2
+Success
+Iteration: 2
+Master_name: inclusion_10
+Success
+Iteration: 2
+Master_name: inclusion_9
+Success
+Iteration: 2
+Master_name: inclusion_4
+Success
+Iteration: 2
+Master_name: self
+Success
+Iteration: 2
+Master_name: attribution_6
+Success
+Iteration: 2
+Master_name: attribution_1
+Success
+Iteration: 2
+Master_name: attribution_2
+Success
+Iteration: 2
+Master_name: attribution_4
+Success
+Iteration: 2
+Master_name: attribution_5
+Success
+Iteration: 2
+Master_name: attribution_3
+Success
+Iteration: 2
+Master_name: triad
+Success
+Iteration: 2
+Master_name: creativity
+Success
+Iteration: 3
+Master_name: self
+Success
+Iteration: 3
+Master_name: triad
+Success
+Iteration: 3
+Master_name: inclusion_8
+Success
+Iteration: 3
+Master_name: inclusion_7
+Success
+Iteration: 3
+Master_name: inclusion_5
+Success
+Iteration: 3
+Master_name: inclusion_1
+Success
+Iteration: 3
+Master_name: inclusion_6
+Success
+Iteration: 3
+Master_name: inclusion_4
+Success
+Iteration: 3
+Master_name: inclusion_3
+Success
+Iteration: 3
+Master_name: inclusion_10
+Success
+Iteration: 3
+Master_name: inclusion_9
+Success
+Iteration: 3
+Master_name: inclusion_2
+Success
+Iteration: 3
+Master_name: attribution_3
+Success
+Iteration: 3
+Master_name: attribution_4
+Success
+Iteration: 3
+Master_name: attribution_2
+Success
+Iteration: 3
+Master_name: attribution_5
+Success
+Iteration: 3
+Master_name: attribution_6
+Success
+Iteration: 3
+Master_name: attribution_1
+Success
+Iteration: 3
+Master_name: creativity
+Success
+Iteration: 4
+Master_name: inclusion_6
+Success
+Iteration: 4
+Master_name: inclusion_10
+Success
+Iteration: 4
+Master_name: inclusion_5
+Success
+Iteration: 4
+Master_name: inclusion_4
+Success
+Iteration: 4
+Master_name: inclusion_9
+Success
+Iteration: 4
+Master_name: inclusion_3
+Success
+Iteration: 4
+Master_name: inclusion_7
+Success
+Iteration: 4
+Master_name: inclusion_1
+Success
+Iteration: 4
+Master_name: inclusion_8
+Success
+Iteration: 4
+Master_name: inclusion_2
+Success
+Iteration: 4
+Master_name: creativity
+Success
+Iteration: 4
+Master_name: triad
+Success
+Iteration: 4
+Master_name: self
+Success
+Iteration: 4
+Master_name: attribution_4
+Success
+Iteration: 4
+Master_name: attribution_3
+Success
+Iteration: 4
+Master_name: attribution_2
+Success
+Iteration: 4
+Master_name: attribution_1
+Success
+Iteration: 4
+Master_name: attribution_5
+Success
+Iteration: 4
+Master_name: attribution_6
+Success
+Iteration: 5
+Master_name: inclusion_3
+Success
+Iteration: 5
+Master_name: inclusion_7
+Success
+Iteration: 5
+Master_name: inclusion_1
+Success
+Iteration: 5
+Master_name: inclusion_2
+Success
+Iteration: 5
+Master_name: inclusion_4
+Success
+Iteration: 5
+Master_name: inclusion_8
+Success
+Iteration: 5
+Master_name: inclusion_6
+Success
+Iteration: 5
+Master_name: inclusion_5
+Success
+Iteration: 5
+Master_name: inclusion_9
+Success
+Iteration: 5
+Master_name: inclusion_10
+Success
+Iteration: 5
+Master_name: self
+Success
+Iteration: 5
+Master_name: triad
+Success
+Iteration: 5
+Master_name: creativity
+Success
+Iteration: 5
+Master_name: attribution_1
+Success
+Iteration: 5
+Master_name: attribution_6
+Success
+Iteration: 5
+Master_name: attribution_5
+Success
+Iteration: 5
+Master_name: attribution_2
+Success
+Iteration: 5
+Master_name: attribution_4
+Success
+Iteration: 5
+Master_name: attribution_3
+Success
+Iteration: 6
+Master_name: creativity
+Success
+Iteration: 6
+Master_name: inclusion_9
+Success
+Iteration: 6
+Master_name: inclusion_2
+Success
+Iteration: 6
+Master_name: inclusion_10
+Success
+Iteration: 6
+Master_name: inclusion_8
+Success
+Iteration: 6
+Master_name: inclusion_7
+Success
+Iteration: 6
+Master_name: inclusion_4
+Success
+Iteration: 6
+Master_name: inclusion_5
+Success
+Iteration: 6
+Master_name: inclusion_3
+Success
+Iteration: 6
+Master_name: inclusion_6
+Success
+Iteration: 6
+Master_name: inclusion_1
+Success
+Iteration: 6
+Master_name: triad
+Success
+Iteration: 6
+Master_name: attribution_1
+Success
+Iteration: 6
+Master_name: attribution_5
+Success
+Iteration: 6
+Master_name: attribution_2
+Success
+Iteration: 6
+Master_name: attribution_3
+Success
+Iteration: 6
+Master_name: attribution_6
+Success
+Iteration: 6
+Master_name: attribution_4
+Success
+Iteration: 6
+Master_name: self
+Success
+Iteration: 7
+Master_name: triad
+Success
+Iteration: 7
+Master_name: creativity
+Success
+Iteration: 7
+Master_name: attribution_4
+Success
+Iteration: 7
+Master_name: attribution_6
+Success
+Iteration: 7
+Master_name: attribution_1
+Success
+Iteration: 7
+Master_name: attribution_2
+Success
+Iteration: 7
+Master_name: attribution_3
+Success
+Iteration: 7
+Master_name: attribution_5
+Success
+Iteration: 7
+Master_name: inclusion_10
+Success
+Iteration: 7
+Master_name: inclusion_6
+Success
+Iteration: 7
+Master_name: inclusion_5
+Success
+Iteration: 7
+Master_name: inclusion_3
+Success
+Iteration: 7
+Master_name: inclusion_9
+Success
+Iteration: 7
+Master_name: inclusion_2
+Success
+Iteration: 7
+Master_name: inclusion_7
+Success
+Iteration: 7
+Master_name: inclusion_1
+Success
+Iteration: 7
+Master_name: inclusion_8
+Success
+Iteration: 7
+Master_name: inclusion_4
+Success
+Iteration: 7
+Master_name: self
+Success
