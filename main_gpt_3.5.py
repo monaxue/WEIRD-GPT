@@ -12,12 +12,12 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 output_df = "gpt_3.5_additional_values_data_1.xlsx"
 
 # File for history
-history_file = open("gpt_3.5_addtional_values_history_1.txt", "a")
-all_answers_file = open('got_3.5_additonal_values_data_1.pickle', 'ab')
+history_file = open("gpt_3.5_additional_values_history_1.txt", "a")
+all_answers_file = open('gpt_3.5_additional_values_data_1.pickle', 'ab')
 
 # some parameters
 model_engine = "gpt-3.5-turbo-0301"
-iterations = 10
+iterations = 1000
 count=0
 n = 1
 
