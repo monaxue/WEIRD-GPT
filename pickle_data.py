@@ -1,6 +1,6 @@
 import pickle
-import cognitive_questions_2
-df = cognitive_questions_2.df_i.copy()
+import additional_values_questions
+df = additional_values_questions.df_i.copy()
 
 ## Define functions and classes
 
@@ -38,7 +38,7 @@ class Answer:
 ## Import data from pickle file when there are multiple items in pickle file.
 
 data = []
-with open('final_cognitive_3.5_new.pickle', 'rb') as file:
+with open('gpt_3.5_additional_values_data_1.pickle', 'rb') as file:
     while True:
         try:
             obj = pickle.load(file)
@@ -50,8 +50,8 @@ with open('final_cognitive_3.5_new.pickle', 'rb') as file:
 
 ## Import from pick file when there is only one item (can be a list of items) in pickle file
 
-with open('final_cognitive_3.5_new.pickle', 'rb') as file:
-    data = pickle.load(file)
+#with open('gpt_3.5_additional_values_data_1.pickle', 'rb') as file:
+#    data = pickle.load(file)
 
 
 ## Other code:
@@ -60,12 +60,12 @@ with open('final_cognitive_3.5_new.pickle', 'rb') as file:
 #    for key, value in vars(obj).items():
 #        print(key, "=", value)
 
-filtered_list = [obj for obj in data if (obj.iteration == 1210) & (obj.master_name == 'inclusion_1')]
+filtered_list = [obj for obj in data if (obj.iteration == 9) & (obj.master_name == 'tightness-looseness_revised_6')]
 print(filtered_list[0].full_answer)
 
-#for obj in filtered_list:
-#    for key, value in vars(obj).items():
-#        print(key, "=", value)
+for obj in filtered_list:
+    for key, value in vars(obj).items():
+        print(key, "=", value)
 
 
 

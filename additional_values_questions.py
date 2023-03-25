@@ -66,6 +66,4 @@ df_i = pd.DataFrame(columns= [
 
     "honor_1", "honor_2", "honor_3", "honor_4", "honor_5", "honor_6", "honor_7", "honor_8",
 
-    'collectivism_1', 'collectivism_2', 'collectivism_3', 'collectivism_4', 'collectivism_5', 'collectivism_6',
-
     'h_individualism-collectivism_1', 'h_individualism-collectivism_2', 'h_individualism-collectivism_3', 'h_individualism-collectivism_4'])
