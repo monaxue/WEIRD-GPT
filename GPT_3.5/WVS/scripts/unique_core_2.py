@@ -1,0 +1,58 @@
+list = [
+
+"Hard work",
+"Imagination",
+"Tolerance and respect for other people",
+"Good manners",
+"Independence",
+"Respect for other people",
+"Feeling of responsibility",
+"Tolerance and respect for other people",
+"Independence",
+"Imagination",
+"Hard work",
+"Responsibility",
+"Good manners",
+"Thrift, saving money and things",
+"Determination, perseverance",
+"Imaginaton",
+"Tolerance and respect for other people",
+"Thrift, saving money and things",
+"Hard work",
+"Independence",
+"Good manners",
+"Determination, perseverance",
+"Imagination",
+"Feeling of responsibility",
+"Not being selfish",
+"Independance",
+"Determination, perseverance",
+"Good manners",
+"Independence",
+"Feeling of responsibility",
+"Hard work",
+"Tolerance and respect for other people",
+"Not being selfish",
+"Imagination",
+"Thrift, saving money and things",
+"Obedience",
+"Tolerance and respect for others",
+"Responsibility",
+"Not being selfish",
+"Feeling of responsibility",
+"Hard work",
+"Determination, perseverance",
+"Independence",
+"Tolerance and respect for other people",
+"Imagination",
+"Good manners",
+"Responsibility",
+"Thrift, saving money and things",
+"Determination"
+
+]
+
+unique_list = set(list)
+
+paragraph = "\n".join(unique_list)
+print(paragraph)
