@@ -23,7 +23,7 @@ count=0
 n = 1
 
 # import questions/parameters from the questions python file
-import WVS_questions
+import questions.WVS_questions as WVS_questions
 survey_items_names = WVS_questions.survey_items_names
 number_of_items = WVS_questions.number_of_items
 survey_items = WVS_questions.survey_items
