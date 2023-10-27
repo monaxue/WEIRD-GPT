@@ -1,0 +1,8 @@
+"0",""
+"0","#try centroid and complete methods"
+"0",""
+"0",""
+"0","den <- as.dendrogram(data_cleaned.hclust)"
+"0",""
+"0","phylo <- as.phylo(data_cleaned.hclust)"
+"0","plot(phylo)"

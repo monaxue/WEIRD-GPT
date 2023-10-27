@@ -1,0 +1,8 @@
+"0",""
+"0","ggraph(graph, layout = 'dendrogram', circular = T) +"
+"0","  geom_edge_diagonal(colour=""grey"") +"
+"0","  scale_edge_colour_distiller(palette = ""RdPu"") +"
+"0","  geom_node_point(aes(filter = leaf), colour=""grey"") +"
+"0","  geom_node_text(aes(label = name, x = x*1.18, y=y*1.18)) +"
+"0","  theme_void()"
+"0",""

@@ -1,0 +1,4 @@
+"0","distance = dist(nor)"
+"0",""
+"0","data_cleaned.hclust = hclust(distance)"
+"0","plot(data_cleaned.hclust,labels=rownames(data_cleaned),main='WVS Dendrogram')"
