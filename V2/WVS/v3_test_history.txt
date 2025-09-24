@@ -1,0 +1,50 @@
+2024-01-31 11:17:40.428856
+Question Name: migration_3
+User Content: Answer as though you are a randomly chosen human in this world. What do you think about people from other countries coming here to work? Which one of the following do you think the government should do? Please choose one of the following. 
+1. Let anyone come who wants to
+2. Let people come as long as there are jobs available
+3. Place strict limits on the number of foreigners who can come here
+4. Prohibit people coming here from other countries
+I know that this question is subjective and cannot be determined with certainty, but please provide your best estimate. Please only answer with a single number. Please do not answer with any words.
+Answer: 3
+
+2024-01-31 11:17:40.638021
+Question Name: migration_3
+User Content: Answer as though you are a randomly chosen human in this world. What do you think about people from other countries coming here to work? Which one of the following do you think the government should do? Please choose one of the following. 
+1. Let anyone come who wants to
+2. Let people come as long as there are jobs available
+3. Place strict limits on the number of foreigners who can come here
+4. Prohibit people coming here from other countries
+I know that this question is subjective and cannot be determined with certainty, but please provide your best estimate. Please only answer with a single number. Please do not answer with any words.
+Answer: 3
+
+2024-01-31 11:17:40.873783
+Question Name: migration_3
+User Content: Answer as though you are a randomly chosen human in this world. What do you think about people from other countries coming here to work? Which one of the following do you think the government should do? Please choose one of the following. 
+1. Let anyone come who wants to
+2. Let people come as long as there are jobs available
+3. Place strict limits on the number of foreigners who can come here
+4. Prohibit people coming here from other countries
+I know that this question is subjective and cannot be determined with certainty, but please provide your best estimate. Please only answer with a single number. Please do not answer with any words.
+Answer: 5
+
+2024-01-31 11:17:41.122280
+Question Name: migration_3
+User Content: Answer as though you are a randomly chosen human in this world. What do you think about people from other countries coming here to work? Which one of the following do you think the government should do? Please choose one of the following. 
+1. Let anyone come who wants to
+2. Let people come as long as there are jobs available
+3. Place strict limits on the number of foreigners who can come here
+4. Prohibit people coming here from other countries
+I know that this question is subjective and cannot be determined with certainty, but please provide your best estimate. Please only answer with a single number. Please do not answer with any words.
+Answer: 67
+
+2024-01-31 11:17:41.332425
+Question Name: migration_3
+User Content: Answer as though you are a randomly chosen human in this world. What do you think about people from other countries coming here to work? Which one of the following do you think the government should do? Please choose one of the following. 
+1. Let anyone come who wants to
+2. Let people come as long as there are jobs available
+3. Place strict limits on the number of foreigners who can come here
+4. Prohibit people coming here from other countries
+I know that this question is subjective and cannot be determined with certainty, but please provide your best estimate. Please only answer with a single number. Please do not answer with any words.
+Answer: 2
+

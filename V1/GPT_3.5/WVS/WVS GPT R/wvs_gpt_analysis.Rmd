@@ -1,0 +1,249 @@
+---
+title: "wvs_gpt_analysis"
+output: html_document
+date: "2023-06-13"
+---
+
+### Import libraries
+```{r message=FALSE}
+library(tidyverse)
+library(readxl)
+library(psych)
+library(hablar)
+library(stringr)
+library(knitr)
+library(kableExtra)
+library(gridExtra)
+library(ggraph)
+library(igraph)
+library(RColorBrewer)
+library(ape)
+
+```
+### Import gpt wvs data
+```{r}
+wvs_data <- read_csv("WVS_Cross-National_Wave_7_csv_v5_0.csv")
+head(wvs_data)
+
+gpt_data <- read_csv("final_final_gpt_wvs_data.csv")
+gpt_data <- gpt_data[, -c(1)]
+head(gpt_data)
+
+codes <- read_excel("codes.xlsx")
+codes$Old<-sub("^","Q",codes$Old)
+
+country_names_file <- read.csv("country_names.csv")
+
+```
+
+### Rename wvs_data questions
+
+```{r}
+new_wvs_data <- data.table::setnames(wvs_data, old = codes$Old, 
+         new = codes$New)
+
+```
+
+### Combine wvs_data with gpt_data
+
+```{r}
+data <- rbind(new_wvs_data[c("B_COUNTRY", codes$New)], gpt_data[])
+
+```
+### Check unique values
+```{r}
+unique_values <- apply(data, 2, unique)
+#View(unique_values)
+
+print(unique(unlist(data[2:length(data)])))
+
+columns_with_negative_4 <- which(apply(data, 2, function(x) any(x == -4)))
+columns_with_negative_2 <- which(apply(data, 2, function(x) any(x == -2)))
+
+print(columns_with_negative_4)
+
+```
+
+```{r}
+data_2 <- data %>%
+  mutate(numb_negative_twos = rowSums(. == -2, na.rm = T)) %>% #calculates the number of question each individaul answered with -2
+  mutate(numb_negative_fours = rowSums(. == -4, na.rm = T))  #caculates the number of questions that were not asked in each country.
+  
+```
+
+```{r}
+descriptive_stats <- data_2 %>%
+  group_by(B_COUNTRY) %>%
+  mutate(numb_negative_twos_country = mean(numb_negative_twos)) %>%
+  summarise("Number of participants" = n(), "Average number of questions not answered/refused" = mean(numb_negative_twos), "Number of questions not asked" = mean(numb_negative_fours))
+
+descriptive_stats <- merge(descriptive_stats, country_names_file)
+rownames(descriptive_stats) <- descriptive_stats$country_names
+descriptive_stats <- descriptive_stats %>%
+  select(-c(B_COUNTRY, country_names)) %>%
+  round(digits = 2)
+
+descriptive_stats <- descriptive_stats[!(row.names(descriptive_stats) == "GPT"),]
+
+
+pdf("descriptive_stats_gridExtra.pdf", height = 20, width = 12)
+grid.table(descriptive_stats)
+dev.off()
+
+```
+
+
+### Condense datase, taking the means or proportions of each variable
+
+```{r}
+data_cleaned <- data_2 %>%
+  # filter such that we only keep individuals who answered 95% of the questions without using -2 or -4 (252 is the total number of questions)
+  #filter(numb_negative_twos < 0.05*252) %>% 
+  #filter(numb_negative_fours < 0.05*252) %>% 
+  # change rest of the negative answers to NA
+  mutate_all(~ case_when(. < 0  ~ NA, TRUE ~ .)) %>%
+  group_by(B_COUNTRY) %>% # apply all functions to entire country
+  mutate(numb_negative_twos_country = mean(numb_negative_twos)) %>% #calculates the mean number of questions answered with -2 for each country
+  select(-c(numb_negative_twos)) %>%
+  mutate_at(vars(-c(B_COUNTRY, starts_with(c("core_3", "security_3", "security_5", "security_9", "religion_2", "religion_7", "religion_8", "trust_6", "econ_values_2", "security_7", "security_8", "trust_5", "postmat_1", "postmat_2", "postmat_3", "numb_negative")))), ~mean(., na.rm = T)) %>%
+  mutate_at(vars(c(starts_with(c("core_3", "security_3", "security_5", "security_9", "religion_2", "religion_7", "religion_8")))), ~(mean(. == 1, na.rm = T))) %>% #proportion "Yes" or proportion first choice
+  mutate_at(vars(c(starts_with(c("trust_6", "econ_values_2", "security_7", "security_8")))), ~(mean(. == 2, na.rm = T))) %>%
+  mutate_at(vars(trust_5_1), ~(mean(. == 3, na.rm = T))) %>%
+  mutate_at(vars(trust_5_2), ~(mean(. == 1, na.rm = T))) %>%
+  mutate_at(vars(trust_5_3), ~(mean(. == 2, na.rm = T))) %>%
+  mutate(postmat_1_1_1 = mean(postmat_1_1 == 1, na.rm = T)) %>%
+  mutate(postmat_1_1_2 = mean(postmat_1_1 == 2, na.rm = T)) %>%
+  mutate(postmat_1_1_3 = mean(postmat_1_1 == 3, na.rm = T)) %>%
+  mutate(postmat_1_1_4 = mean(postmat_1_1 == 4, na.rm = T)) %>%
+  mutate(postmat_1_2_1 = mean(postmat_1_2 == 1, na.rm = T)) %>%
+  mutate(postmat_1_2_2 = mean(postmat_1_2 == 2, na.rm = T)) %>%
+  mutate(postmat_1_2_3 = mean(postmat_1_2 == 3, na.rm = T)) %>%
+  mutate(postmat_1_2_4 = mean(postmat_1_2 == 4, na.rm = T)) %>%
+  mutate(postmat_2_1_1 = mean(postmat_2_1 == 1, na.rm = T)) %>%
+  mutate(postmat_2_1_2 = mean(postmat_2_1 == 2, na.rm = T)) %>%
+  mutate(postmat_2_1_3 = mean(postmat_2_1 == 3, na.rm = T)) %>%
+  mutate(postmat_2_1_4 = mean(postmat_2_1 == 4, na.rm = T)) %>%
+  mutate(postmat_2_2_1 = mean(postmat_2_2 == 1, na.rm = T)) %>%
+  mutate(postmat_2_2_2 = mean(postmat_2_2 == 2, na.rm = T)) %>%
+  mutate(postmat_2_2_3 = mean(postmat_2_2 == 3, na.rm = T)) %>%
+  mutate(postmat_2_2_4 = mean(postmat_2_2 == 4, na.rm = T)) %>%
+  mutate(postmat_3_1_1 = mean(postmat_3_1 == 1, na.rm = T)) %>%
+  mutate(postmat_3_1_2 = mean(postmat_3_1 == 2, na.rm = T)) %>%
+  mutate(postmat_3_1_3 = mean(postmat_3_1 == 3, na.rm = T)) %>%
+  mutate(postmat_3_1_4 = mean(postmat_3_1 == 4, na.rm = T)) %>%
+  mutate(postmat_3_2_1 = mean(postmat_3_2 == 1, na.rm = T)) %>%
+  mutate(postmat_3_2_2 = mean(postmat_3_2 == 2, na.rm = T)) %>%
+  mutate(postmat_3_2_3 = mean(postmat_3_2 == 3, na.rm = T)) %>%
+  mutate(postmat_3_2_4 = mean(postmat_3_2 == 4, na.rm = T)) %>%
+  select(-c(postmat_1_1, postmat_1_2, postmat_2_1, postmat_2_2, postmat_3_1, postmat_3_2)) %>%
+  distinct()
+
+```
+
+```{r}
+unique_values <- apply(data_cleaned, 2, unique)
+#View(unique_values)
+```
+
+```{r}
+data_cleaned <- merge(data_cleaned, country_names_file)
+rownames(data_cleaned) <- data_cleaned$country_names
+data_cleaned <- data_cleaned %>%
+  arrange(desc(numb_negative_fours))
+
+print(data_cleaned[,c("numb_negative_twos_country","numb_negative_fours")]) # numb_negative_twos_country is the average number of questions answered with -2 in each country, numb_negative_fours is the number of questions not asked in each country.
+
+data_cleaned <- dplyr::select(data_cleaned, -c(B_COUNTRY, country_names, numb_negative_twos_country, numb_negative_fours))
+#write.csv(data_cleaned, "final_full_dataset_gpt_national_wvs.csv")
+```
+### Normalization
+```{r}
+means <- apply(data_cleaned,2,mean)
+sds <- apply(data_cleaned,2,sd)
+nor <- scale(data_cleaned,center=means,scale=sds)
+```
+
+### Cluster
+```{r fig.height= 10, fig.width= 15}
+distance = dist(nor)
+
+data_cleaned.hclust = hclust(distance, method = "complete")
+plot(data_cleaned.hclust,labels=data_cleaned.hclust$lables,main='WVS Dendrogram')
+plot(data_cleaned.hclust,hang=-1, labels=data_cleaned.hclust$lables,main='WVS Dendrogram')
+
+#try centroid and complete methods
+
+
+den <- as.dendrogram(data_cleaned.hclust)
+
+phylo <- as.phylo(data_cleaned.hclust)
+plot(phylo)
+
+graph <- as.igraph(phylo)
+```
+
+### Dendrogram with all nodes labeled
+```{r fig.height= 15, fig.width= 15}
+
+ggraph(graph, layout = 'dendrogram', circular = T) +
+  geom_edge_diagonal(colour="grey") +
+  scale_edge_colour_distiller(palette = "RdPu") +
+  geom_node_point(aes(filter = leaf), colour="grey") +
+  geom_node_text(aes(label = name, x = x*1.18, y=y*1.18)) +
+  theme_void()
+
+```
+
+### Add angle to graph
+```{r}
+
+wvs_vertices <- data.frame(name = V(graph)$name)
+wvs_vertices$id = NULL
+count = 0
+
+for (node in 1:129){
+  if (!grepl("Node", wvs_vertices[node, "name"])){
+    count = count + 1
+    wvs_vertices[node, "id"] <- count
+  }
+}
+
+wvs_nleaves = 65
+wvs_vertices$angle= 90 - 360 * wvs_vertices$id / wvs_nleaves
+# calculate the alignment of labels: right or left
+# If I am on the left part of the plot, my labels have currently an angle < -90
+wvs_vertices$hjust<-ifelse( wvs_vertices$angle < -90, 1, 0)
+ 
+# flip angle BY to make them readable
+wvs_vertices$angle<-ifelse(wvs_vertices$angle < -90, wvs_vertices$angle+180, wvs_vertices$angle)
+
+V(graph)$angle <- wvs_vertices$angle
+
+```
+### Group colors
+```{r}
+wvs_vertices$group[1] <- 0
+wvs_vertices$group[1:2] <- "Node1"
+wvs_vertices$group[4:20] <- "Node3"
+wvs_vertices$group[22:40] <- "Node5"
+wvs_vertices$group[42:54] <- "Node7"
+wvs_vertices$group[56:90] <- "Node9"
+wvs_vertices$group[91:129] <- "Node10"
+
+V(graph)$group <- wvs_vertices$group
+
+```
+
+### Final dendrogram
+```{r fig.height= 10, fig.width= 10}
+
+ggraph(graph, layout = 'dendrogram', circular = T) +
+  geom_edge_diagonal(color = "grey") +
+  scale_edge_colour_distiller(palette = "RdPu") +
+  geom_node_point(aes(filter = leaf, color = group)) +
+  geom_node_text(aes(label = name, filter = leaf, angle = angle, colour = group, x = x*1.18, y=y*1.18)) +
+  theme_void() +
+  theme(legend.position="none")
+  
+
+```

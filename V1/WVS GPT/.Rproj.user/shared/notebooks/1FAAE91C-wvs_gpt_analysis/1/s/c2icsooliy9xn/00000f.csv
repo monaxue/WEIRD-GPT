@@ -1,2 +1,0 @@
-"0","unique_values <- apply(data_cleaned, 2, unique)"
-"0","#View(unique_values)"

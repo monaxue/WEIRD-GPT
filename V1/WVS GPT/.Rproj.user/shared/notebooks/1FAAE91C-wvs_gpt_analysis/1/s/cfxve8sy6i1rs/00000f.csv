@@ -1,3 +1,0 @@
-"0","means <- apply(data_cleaned,2,mean)"
-"0","sds <- apply(data_cleaned,2,sd)"
-"0","nor <- scale(data_cleaned,center=means,scale=sds)"

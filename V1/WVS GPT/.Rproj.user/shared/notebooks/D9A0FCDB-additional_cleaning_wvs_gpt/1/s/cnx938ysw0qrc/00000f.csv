@@ -1,6 +1,0 @@
-"0",""
-"0","char_col <- final_gpt_new_data %>% select_if(is.character)"
-"0","unique_values <- apply(char_col, 2, unique)"
-"0","View(unique_values)"
-"0",""
-"0",""

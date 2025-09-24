@@ -1,8 +1,0 @@
-"0",""
-"0","data_cleaned <- dplyr::select(data_cleaned, -c(B_COUNTRY, country_names, numb_negative_twos_country, numb_negative_fours))"
-"2","Error in exists(cacheKey, where = .rs.WorkingDataEnv, inherits = FALSE) : 
-  invalid first argument
-"
-"2","Error in assign(cacheKey, frame, .rs.CachedDataEnv) : 
-  attempt to use zero-length variable name
-"
