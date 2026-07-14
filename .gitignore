@@ -3,3 +3,8 @@
 *.RData
 *.Ruserdata
 *.RDataTmp
+.venv*
+venv
+.ts
+.env
+logs

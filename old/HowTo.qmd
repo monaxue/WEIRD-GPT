@@ -1,0 +1,285 @@
+---
+title: How to Run Psychological Surveys in ChatGPT using OpenAI’s API (old version)
+author: Mona Xue
+format:
+  html:
+    theme: minty
+    toc: true
+---
+
+This document provides instructions on how to run psychological surveys in OpenAI’s Python API. These instructions are especially applicable to those interested in probing the psychology of ChatGPT. These instructions will help even those with little coding experience. We will also provide tips for how to modify survey prompts to yield more consistent results from ChatGPT.
+
+# Set up your OpenAI API environment
+
+Make sure that Python is installed on your device. In your preferred development environment (e.g., Visual Studio Code, Anaconda), install OpenAi’s package by running the following:
+
+```powershell
+pip install openai
+```
+
+Now create a Python file. At the top of the file, import the following packages:
+
+```python
+
+import os
+import openai
+
+```
+
+
+Now, you need to specify your OpenAI API key. The API key is how OpenAI in Python knows which OpenAI account to use and charge. You can find your special key here. Your key is unique and secret! Do not share it with anyone. As such, we DO NOT recommend that you copy and paste the key directly into Python. Instead, use the following code:
+
+```python
+openai.api_key = os.getenv("OPENAI_API_KEY")
+```
+
+Now, you want to specify the API key in your environment, such that os.getenv() can access it. 
+
+## For Linux/macOS
+
+Go to the terminal, and use the export command, as follows. Replace `YOUR_API_KEY_HERE` with your unique API key from OpenAI. 
+
+```terminal
+export OPENAI_API_KEY="YOUR_API_KEY_HERE"
+```
+
+## For Windows
+You have 2 options: 1) use the command prompt, or 2) go into system settings.
+
+### Using the command prompt:
+
+Go to the command prompt, and type the following. Replace `YOUR_API_KEY_HERE` with the unique API key you obtained from OpenAI.
+
+```cmd
+set OPENAI_API_KEY=YOUR_API_KEY_HERE
+```
+
+### Using system settings:
+
+Right-click on "This PC" or "My Computer" and select "Properties." Then go to “Advanced system settings” and click on the “Environment Variables” button. Under "System variables," click "New" and enter `OPENAI_API_KEY` as the variable name and your unique OpenAi API key as the variable value.
+
+# Ask a single survey question
+
+To ask survey questions to ChatGPT, use the function openai.ChatCompletion.create() to make API requests. Below, we describe the parameters used in this function.
+Model
+
+The first thing you want to do is to specify the model you want to use. At the time this article was written (09/2023), the best models to use are “gpt-4” and “gpt-3.5-turbo-0301.” Different models have tradeoffs in price, function, and speed. You can read about the available models and a comparison of them here.
+
+## Temperature
+
+The parameter “temperature” is used to specify the chance of outputting high-probability words. It allows you to determine the variance in ChatGPT’s answers. Temperature ranges from 0 to 1, where 0 has the lowest variance in answers, and 1 has the highest variance. You want to set the temperature to 1 for most psychology surveys (to increase reproducibility), however, if you are interested in variance in responses (e.g., simulating populations) you might consider a temperature of 1 or somewhere inbetween. You can read more about temperature here.
+Messages
+
+The parameter “messages” is where we will input our survey question. There are two required properties in “messages”—“role” and “content”. The property “content” is where we input our message. The property “role” tells ChatGPT how to interpret the message. For instance, the role “user” tells ChatGPT to treat the message as though it comes from a human using ChatGPT. The role “system” tells ChatGPT to interpret the message as instructions for how ChatGPT should behave. For example, the role “system” along with the content “please answer questions as though you are Sigmund Freud” should encourage ChatGPT to respond like Sigmund Freud. Because instructions like “answer questions like Freud” also work for the role of “user”, the rest of the instructions will only be using the role “user.” There are instances when certain roles provide benefits over “user”, but they, currently, do not make a huge difference for psychological surveys.
+
+See the example code below to learn how to format the contents of the “messages” parameter.
+
+## Example code
+
+The following code uses GPT-4 at a temperature of 1, and asks ChatGPT the question “Is this an interesting psychology question?” It assigns ChatGPT’s response to the variable “completion.”
+
+```python
+completion = openai.ChatCompletion.create(
+  model="gpt-4",
+  temperature=1,
+  messages=[
+    {"role": "user", "content": "Is this an interesting psychology question?"}
+  ]
+)
+```
+
+
+To print ChatGPT’s response, use the following code:
+
+```python
+response = completion.choices[0].message
+print(response)
+```
+
+Where `completion` is the variable we used to save ChatGPT’s entire output, and `completion.choices[0].message` is where the response we want is stored.
+
+# Format and test your survey questions
+
+Now we get to the fun part: Testing out your survey questions! We will need to format and reformat survey questions so that ChatGPT will respond to them with meaning and consistency. Here are the basic steps:
+
+## Step 1: Test raw questions
+
+You can first test the raw questions as they would be asked to humans. We want to modify the original survey questions as little as possible when inputting them into ChatGPT. But chances are, the original survey questions won’t work very well, as ChatGPT may refuse to offer a straightforward response.
+
+## Step 2: Find a general format that works
+
+Figure out a general format that works with ChatGPT for your question type. A general format includes two parts: 1) the original survey question, and 2) GPT-specific instructions. GPT-specific instructions are usually heavily modified versions of the original survey instructions meant for human subjects, but frequently they are also additional clarification statements that human subjects do not need. For questions with a scale, we found that the following GPT-specific instruction works well:
+
+> Respond on a scale from 1 to 4, with 1 meaning “[something],” 2 meaning “[something]”, 3 meaning “[something]”, and 4 meaning "[something]”. Respond with a single number, with no words.
+
+We found that “no words” was important to specify. Otherwise, ChatGPT likes to offer explanations for its answers, making it difficult to clean after data collection (e.g., because a response is given as a paragraph that does not clearly match a scale value).
+
+The original survey questions can go either before or after the GPT-specific instruction, but whatever you choose, the important thing is to be consistent, since GPT answers are sensitive to changes in prompting. 
+
+Sometimes the original survey question may also need to be modified. For instance, for some questions, it might make more sense to ask ChatGPT what an “average human” thinks instead of what “you” think. However, consider the implications of these changes (e.g., probing the model’s own values, beliefs, understanding vs its knowledge about others’ which may or may not be the same for a given research question).
+
+In general, you want to create a format that allows ChatGPT to answer with a single number (or word, but numbers are recommended over words, as they will be significantly easier to clean). You want to avoid responses that are lengthy explanations and those that start with “Sorry, I am an AI…” and similar responses. Again, these considerations depend on the specific research question and desired responses (e.g., scale vs free-form, etc).
+
+Depending on the similarity of the survey questions (e.g., Moral Foundations Questionnaire items are very similar, whereas World Values Survey questions are very different), you may be able to create a single instructional statement that gets attached to every question, or you may have to create a unique instructional statement for every question. Be clear about your instructions, state the rationale of your modifications, and report them in your works.
+
+## Step 3: Add clarifications to problematic questions
+
+For certain questions, the general format may not work. This is often due to the idiosyncrasies of the questions, and the specific reasons why these questions do not work are hard to identify. In these cases, you may need to add some clarification language to the problematic survey questions. 
+
+Sometimes repeating instructions at the end of the question is necessary because ChatGPT can forget instructions in the beginning. Being redundant is often necessary to get your point across. Experiment with different ways of phrasing the question, or add additional detail. Be very specific about your requests. Another helpful phase is as follows:
+
+> I know that the answers are subjective and that they vary based on personal experiences and context, but please just give your best estimate on a scale from 1 to 4.”
+
+You can try variations of this phrase based on how ChatGPT responds. For instance, if ChatGPT tells you that it can’t answer the question because it doesn’t have access to data, you can try 
+
+> “I know that you don’t have empirical evidence, but….”
+
+If all else fails, you may need to drop the question. 
+
+# Run your entire survey on the API
+
+There are multiple ways that you run your survey on the API. Below, we explore one such way. 
+
+## Create a file to store your prompts
+
+Create a 2-column CSV file to store your prompts. In the first column, include the question name. In the second column, include the survey question along with any question-specific instructions. For example:
+
+|Name|Prompt|
+|---|---|
+|prompt_0|Is this the first question? Answer “1” for “yes” and “0” for “no.”|
+|prompt_1|Is this the second question? Answer “1” for “yes” and “0” for “no.”|
+
+: prompts.csv
+
+## Set up for multiple survey questions
+
+Explanation of the code is in the comments:
+
+```python
+import pandas as pd
+import openai
+import os
+import time
+
+# OpenAi only allows a certain number of tokens per minute. 
+# So we need to add delays to keep the runs smooth.
+rate_limit_per_minute = 3500.0
+delay = 60.0 / rate_limit_per_minute
+
+# Set the API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Specify number of iterations
+total_iterations = 2
+
+# Create empty dataframe to store ChatGPT responses
+df = pd.DataFrame()
+
+# Import survey questions into a data frame
+prompts = pd.read_csv('prompts.csv') 
+```
+
+::: callout-note
+
+ChatGPT has a maximum number of requests per minute (e.g., 3500) depending on the specific model and account. You should therefore include some sort of waiting mechanism (e.g., time.sleep(delay)) to make sure this limit is not exceeded! Alternatively, you can use packages such as “retry” to handle this more efficiently for you.
+
+:::
+
+## Create a loop to run the survey
+
+The general logic of the loop is as follows:
+
+1. Create a while loop to run your survey for the number of iterations you specify in `total_iterations`.
+1. Create another while loop within the “iterations while loop” to go through each prompt in your survey.
+1. Within the “prompt while loop,” use `try` to do the following:
+    1. Input the survey prompt into ChatGPT, and save the entire output into the variable completion.
+    1. Save the actual response that is part of completion into the variable response.
+    1. Save response into the data frame `df`, where each column is a prompt, and each row is an iteration. For each prompt, we add the response to the same data frame, `df`. For each iteration, we also add the responses to `df`.
+    1. Save the data frame as a CSV file. Since this is done in the “prompt while loop,” this CSV file is saved each time a prompt is run and rewrites the old CSV file with the same name. While this slows down the runs, this ensures that if an issue occurs and you have to abort the current run, all your previous responses are saved to the CSV file, and are not lost.
+    1. If all the above steps in `try` are successful, print out a success message, with the iteration number, prompt name, and the word “Success.”
+    1. Add a `delay`, for length `delay`, before the next round starts so we don’t go over our rate limit and cause an error.
+    1. If all of the above is successful, add 1 to `prompt_number`.
+1. If there is any issue within `try`, the following is run under `except`:
+    1. Print the iteration number along with the prompt name.
+    1. Print the message: “Error, trying again in a few seconds”
+    1. Print the type of error that has occurred (which is saved in the variable e).
+    1. Delay the run for length `delay`.
+    1. Our code will now try to run the code within `try` again.
+1. After the “prompt while loop” is completed, add 1 to `total_iterations`, and proceed to the next iteration.
+1. The run is complete when all the prompts have been run for the specified number of iterations.
+
+See code below for details:
+
+```python
+# Start the loop at iteration 1
+
+iteration = 1 
+
+while iteration < total_iterations:
+    prompt_number = 0 
+    while prompt_number < prompts.shape[0]:
+        prompt = prompts.loc[prompt_number, "Prompt"] 
+        prompt_name = prompts.loc[prompt_number, "Name"] 
+        try:
+            completion = openai.ChatCompletion.create(
+                model = "gpt-3.5-turbo-0301",
+                temperature = 1.0, 
+                messages=[{"role": "user", "content": str(prompt)}]
+            )
+            response = completion['choices'][0]['message']['content']
+
+            df.loc[iteration, prompt_name] = response
+            df.to_csv("responses.csv", index = False)
+            
+            success_message = 'Iteration: '+str(iteration) + "\nPrompt name: " + str(prompt_name) + "\nSuccess" +"\n"
+            print(success_message)
+
+            time.sleep(delay)
+            prompt_number += 1
+
+        except Exception as e:
+            error_message = 'Iteration: ' + str(iteration) + '\nPrompt name: ' + str(prompt_name) + "\nError, trying again in a few seconds\n" + str(e) + "\n"
+            print(error_message) 
+            time.sleep(delay)       
+    iteration += 1
+
+```
+
+
+
+|Iteration|prompt_0|prompt_1|
+|---|---|---|
+|1|1|0|
+|2|1|0|
+
+: `responses.csv`
+
+::: callout-note
+These are not actual ChatGPT responses!
+:::
+
+# Test your survey
+
+Start by running your survey for a few iterations, then gradually increase in number. You don’t want to run 100 iterations only to find out that your survey questions have issues. Run for the full length once you are sure you have addressed all problems regarding prompting, cleaning, etc. I like to start with 2 iterations to make sure my code works, then 5 iterations, then 10 to see if some questions get inconsistent results. Remember, every time you run your survey, you are paying OpenAI! So it is good to try to identify issues with fewer iterations. In early stages of your experimentation, you can also test your prompts with the free online chatbot to check if the model generally accepts your prompts and whether the output format is acceptable (note that the online chatbot may not use the same model you chose for the api and might thus react differently).
+
+|Iteration|prompt_0|prompt_1|
+|---|---|---|
+|1|1|0|
+|2|1|0|
+|3|1|0|
+|4|1|Sorry, I cannot answer this question|
+|5|1|0|
+
+: `responses_10_interactions.csv`
+
+In responses_10_interactions.csv, we see that prompt_2 is a problematic question, since we are getting the response “Sorry, I cannot answer this question” in Iteration 4. We need to rephrase prompt_2 to get more consistent responses from ChatGPT.
+
+# Run your entire survey
+
+Once you are satisfied with ChatGPT’s responses and no longer want to modify the prompts, it’s time to run your entire survey with the full number of iterations.  
+
+# Clean your ChatGPT data
+
+ChatGPT will likely give you data that needs significant cleaning. Sometimes ChatGPT will give responses with extra empty lines or punctuations. While it is possible to do some of the cleaning while running the survey, we suggest that you do not do this. Mistakes in processing survey responses mean that you risk losing data and have to run (and pay for) them again. 
+
+After you cleaned your data, you are done! You are now officially an AI Psychologist 🙂
