@@ -31,5 +31,5 @@ for file in files:
             
 merged = pd.concat(all_data, ignore_index=True)
 merged['unique_id'] = range(1, len(merged) + 1)
-merged.to_csv('data/full_dataset.csv', index=False)
+merged.to_csv('raw/data/full_dataset.csv', index=False)
 

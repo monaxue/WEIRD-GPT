@@ -57,7 +57,7 @@ american <- cleaned %>% filter((str_starts(model, "meta") | str_starts(model, "o
 
 american %>% group_by(model, wvs_id) %>% summarize(count=n())
 
-write_csv(american, "data/final_american_dataset.csv")
+write_csv(american, "data/final/final_american_dataset.csv")
 ```
 
 ```{r}
@@ -65,12 +65,12 @@ chinese <- cleaned %>% filter((model == "deepseek/deepseek-v4-flash" | model == 
 
 chinese %>% group_by(model,wvs_id) %>% summarize(count=n())
 
-write_csv(chinese, "data/final_chinese_dataset.csv")
+write_csv(chinese, "data/final/final_chinese_dataset.csv")
 ```
 
 ```{r}
 
 final_dataset <- rbind(american, chinese)
 
-write_csv(final_dataset, "data/final_dataset.csv")
+write_csv(final_dataset, "data/final/final_dataset.csv")
 ```
