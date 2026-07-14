@@ -1,0 +1,76 @@
+```{r}
+
+library(tidyverse)
+library(ggplot2)
+
+raw <- read_csv("data/full_dataset.csv")
+data <- raw %>% filter(answer != "")
+
+prompts <- read_csv("prompts/processed_prompts.csv") %>% mutate(id = Original_ID, name = Name, ValidLengths = as.character(ValidLengths)) %>% select(id, name, ValidIntegers, ValidLengths)
+
+data <- merge(data, prompts)
+data
+```
+
+```{r}
+library(stringr)
+
+# select columns and remove brakcets
+
+cleaned <- data %>% select(c(id, name, model, answer, thinking, ValidIntegers, ValidLengths, temperature)) %>% mutate(answer = str_replace_all(answer, "[\\[\\]]", "")) %>% filter(!is.na(answer) & answer != "")
+
+cleaned
+
+# validation (answer must contain integers in ValidIntegers with a length that is in ValidLengths)
+
+
+cleaned <- cleaned %>% mutate(answer_length = lengths(strsplit(answer, ","))) %>% filter(
+    mapply(\(ans, vi) {
+      all(as.integer(strsplit(ans, ",")[[1]]) %in% as.integer(strsplit(vi, ",")[[1]]))
+    }, answer, ValidIntegers),
+    mapply(\(len, vl) {
+      as.character(len) %in% strsplit(vl, ",")[[1]]
+    }, answer_length, ValidLengths)
+  )
+
+# format core_2 (since core_2 should span multiple rows)
+
+cleaned <- cleaned %>% separate_rows(id, sep = ",\\s*") %>% mutate(answer=if_else(name == "core_2", if_else(
+    mapply(\(ans, i) i %in% strsplit(ans, ",")[[1]], answer, id),
+    "1", "0"
+  ),
+  answer
+))
+
+# select and rename some columns
+
+cleaned <- cleaned %>% mutate(wvs_id = id) %>% select(-c(id, ValidIntegers, ValidLengths, answer_length)) %>% arrange(model, temperature, wvs_id)
+
+cleaned
+```
+
+
+
+```{r}
+
+american <- cleaned %>% filter((str_starts(model, "meta") | str_starts(model, "oepenai") | str_starts(model, "google") | str_starts(model, "anthropic")) & temperature == 2.0)
+
+american %>% group_by(model, wvs_id) %>% summarize(count=n())
+
+write_csv(american, "data/final_american_dataset.csv")
+```
+
+```{r}
+chinese <- cleaned %>% filter((model == "deepseek/deepseek-v4-flash" | model == "qwen/qwen3.5-flash-02-23") & temperature == 1.5)
+
+chinese %>% group_by(model,wvs_id) %>% summarize(count=n())
+
+write_csv(chinese, "data/final_chinese_dataset.csv")
+```
+
+```{r}
+
+final_dataset <- rbind(american, chinese)
+
+write_csv(final_dataset, "data/final_dataset.csv")
+```

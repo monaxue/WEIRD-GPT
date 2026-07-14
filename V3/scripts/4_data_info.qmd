@@ -1,0 +1,287 @@
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+library(ggplot2)
+
+raw_model_prices <- read_csv("data/price/WVS_prompts_v4_English - Model prices.csv")
+
+raw_actual_tokens <- read_csv('data/price/openrouter-activity-tokens-20260519-164154.csv') %>% mutate(model = Slug) %>% select(-c(Slug))
+
+raw_actual_price <- read_csv('data/price/openrouter-activity-spend-20260519-164107.csv') %>% mutate(model = Slug) %>% select(-c(Slug))
+
+raw_requests = read_csv('data/price/openrouter-activity-requests-20260519-191304.csv') %>% mutate(model = Slug) %>% select(-c(Slug))
+
+data <- read_csv("data/full_dataset.csv") %>% filter(answer != "")
+
+prompts <- read_csv("prompts/processed_prompts.csv") %>% mutate(id = Original_ID, name = Name, ValidLengths = as.character(ValidLengths)) %>% select(id, name, ValidIntegers, ValidLengths)
+
+data <- merge(data, prompts)
+
+```
+
+# Tokens
+
+:::: columns
+::: column
+
+## Actual OpenRouter total tokens
+```{r}
+
+actual_tokens <- raw_actual_tokens %>% group_by(model) %>% summarize(total_input_tokens = sum(`Prompt Tokens`), total_output_tokens = sum(`Completion Tokens`+`Reasoning Tokens`), total_tokens = total_input_tokens + total_output_tokens)
+
+actual_tokens %>% arrange(model) %>% mutate(across(-1, ~paste0(round(.x/1000000,2), "M")))
+```
+
+## OpenRouter average tokens per request
+
+```{r}
+
+requests <- raw_requests %>% group_by(model) %>% summarize(requests = sum(Requests))
+
+tokens_requests <- merge(actual_tokens,requests)
+tokens_requests
+
+request_tokens <- tokens_requests %>% mutate(input_tokens = total_input_tokens/requests,
+output_tokens = total_output_tokens/requests,total_tokens = total_tokens/requests) %>% select(model, input_tokens, output_tokens, total_tokens)
+
+request_tokens %>% ungroup() %>% mutate(across(-1, ~paste0(round(.x/1000,2), "K")))
+
+```
+
+## OpenRouter average tokens per "survey"
+```{r}
+router_survey_tokens <- request_tokens %>% ungroup() %>% mutate(across(-1, ~.x*241))
+
+router_survey_tokens %>% mutate(across(-1, ~paste0(round(.x/1000000,2), "M")))
+
+```
+## OpenRouter tokens for 100 surveys
+
+```{r}
+request_tokens  %>% ungroup() %>% mutate(across(-1, ~paste0(round(.x/1000000*241*100,2), "M")))
+```
+
+::: 
+::: column
+
+## Pydantic total tokens
+```{r}
+
+tokens <- data %>% filter(!is.na(input_tokens) & !is.na(output_tokens)) %>% group_by(id, model, temperature) %>% arrange(model,desc(temperature), id) %>% select(c(unique_id, model, id, temperature, input_tokens, output_tokens))
+
+tokens <- tokens %>% group_by(model) %>% mutate(
+total_input_tokens = sum(input_tokens),
+total_output_tokens = sum(output_tokens),
+total_tokens = total_input_tokens + total_output_tokens)
+  
+estimated_tokens <- tokens %>% select(model, total_input_tokens, total_output_tokens, total_tokens) %>% unique() %>% arrange(model)
+
+estimated_tokens %>% ungroup() %>% mutate(across(-1, ~paste0(round(.x/1000000,2), "M")))
+
+  
+```
+
+## Pydantic average tokens per question
+
+```{r}
+
+# Pydantic average tokens for each question
+
+question_tokens<- tokens_prices %>% group_by(model, temperature, id) %>% mutate(
+  avg_input_tokens = mean(input_tokens),
+  avg_output_tokens = mean(output_tokens), avg_tokens = avg_input_tokens+avg_output_tokens) %>% select(-c(unique_id)) %>% arrange(model, id) %>% unique() %>% ungroup()
+
+## Pydantic average of average tokens per question
+
+avg_question_tokens <- question_tokens %>% group_by(model, temperature) %>% summarize(input_tokens = mean(avg_input_tokens), output_tokens = mean(avg_output_tokens), total_tokens = input_tokens + output_tokens)
+
+avg_question_tokens %>% select(c(model, temperature, input_tokens, output_tokens, total_tokens)) %>% unique() %>% ungroup() %>% mutate(across(3:5, ~paste0(round(.x/1000,2), "K"))) 
+
+
+```
+
+## Pydantic tokens per survey
+
+```{r}
+survey_tokens <- avg_question_tokens %>% ungroup() %>% mutate(across(3:5, ~.x*241))
+survey_tokens %>% ungroup() %>% mutate(across(-c(1,2), ~paste0(round(.x/1000000,2), "M")))
+```
+
+## Pydantic tokens per 100 surveys
+
+```{r}
+
+survey_tokens %>% ungroup() %>% mutate(across(-c(1,2), ~paste0(round(.x/1000000*100,2), "M")))
+
+```
+
+:::
+
+::::
+
+
+## Compare tokens
+```{r}
+
+renamed_actual_tokens <- actual_tokens %>% rename_with(~paste0('actual_', .), .cols = 2:ncol(.))
+actual_tokens
+
+renamed_estimated_tokens <- estimated_tokens %>% rename_with(~paste0('estimated_', .), .cols = 2:ncol(.))
+estimated_tokens
+
+compare_tokens <- merge(renamed_actual_tokens, renamed_estimated_tokens) %>% mutate(
+  diff_input_tokens = 
+  actual_total_input_tokens - 
+      estimated_total_input_tokens, 
+diff_output_tokens = 
+  actual_total_output_tokens-
+      estimated_total_output_tokens/1000000, 
+diff_total_tokens = 
+  diff_input_tokens + diff_output_tokens) %>% 
+  select(c(model, starts_with('diff')))
+
+compare_tokens %>% mutate(across(-1, ~paste0(round(.x/1000000,2), "M")))
+```
+
+# Prices
+
+:::: columns
+::: column
+
+## OpenRouter total price
+
+actual_total_price: the actual usage on OpenRouter
+
+total_from_tokens: estimated usage actual OpenRouter reported token usage and the stated model prices.
+
+Note: total from tokens is a little higher because I used the upper price bound for higher amount of tokens.
+
+This shows that the providers are not lying about prices
+
+```{r}
+
+actual_price <- raw_actual_price %>% group_by(model) %>% summarize(actual_total_price = sum(Usage))
+
+router_total_price <- merge(actual_price, actual_tokens) %>% merge(raw_model_prices) %>% mutate(across_models_price = sum(actual_total_price), price_from_input_tokens = total_input_tokens*input_price/1000000,
+price_from_output_tokens= total_output_tokens*output_price/1000000,
+total_from_tokens = price_from_input_tokens + price_from_output_tokens) %>% select(c(model, actual_total_price, total_from_tokens))
+
+router_total_price %>% ungroup() %>% mutate(across(-1, ~paste0('$', round(.x,2))))
+
+```
+
+# Price per survey based on OpenRouter tokens
+
+```{r}
+router_survey_price <- merge(router_survey_tokens, raw_model_prices) %>% group_by(model) %>% mutate(survey_input_price = input_tokens*input_price/1000000, survey_output_price = output_tokens*output_price/1000000, survey_price = survey_input_price + survey_output_price) %>% select(c(model, survey_input_price, survey_output_price, survey_price))
+
+router_survey_price %>% ungroup() %>% mutate(across(-1, ~paste0('$', round(.x,2))))
+
+```
+
+# Price for 100 surveys based on OpenRouter tokens
+
+```{r}
+
+router_survey_price %>% ungroup() %>% mutate(across(-1, ~paste0('$', round(.x*100,2))))
+
+```
+
+:::
+::: column
+
+## Total price based on Pydantic tokens
+
+```{r}
+tokens_prices <- merge(estimated_tokens, raw_model_prices) 
+tokens_prices
+
+total_price <- tokens_prices %>% group_by(model) %>% mutate(
+    total_input_price = total_input_tokens*input_price/1000000,
+ total_output_price = total_output_tokens*output_price/1000000,
+total_price = total_input_price + total_output_price) %>% select(c(model, total_price)) %>% unique() %>% ungroup() %>% mutate(across_models_price = sum(total_price)) %>% arrange(model)
+
+total_price %>% mutate(across(-1, ~paste0('$', round(.x,2))))
+
+```
+
+:::
+
+## Price per survey based on Pydantic tokens
+
+```{r}
+
+pydantic_survey_price <- merge(survey_tokens, raw_model_prices) %>% group_by(model, temperature) %>%
+  summarize(
+    avg_input_price = sum(input_price*input_tokens/1000000), 
+  avg_output_price = sum(output_price*output_tokens/1000000), 
+  total_price = avg_input_price+avg_output_price)
+
+pydantic_survey_price %>% ungroup() %>% mutate(across(3:5, ~paste0('$', round(.x,2))))
+
+```
+
+# Trials left
+
+## Number of trials run per model per question
+
+```{r}
+# First, drop non-sense values (answer must contain integers in ValidIntegers with a length that is in ValidLengths)
+
+validated <- data %>% mutate(answer = str_replace_all(answer, "[\\[\\]]", "")) %>% filter(!is.na(answer) & answer != "")
+
+validated <- validated %>% mutate(answer_length = lengths(strsplit(answer, ","))) %>% filter(
+    mapply(\(ans, vi) {
+      all(as.integer(strsplit(ans, ",")[[1]]) %in% as.integer(strsplit(vi, ",")[[1]]))
+    }, answer, ValidIntegers),
+    mapply(\(len, vl) {
+      as.character(len) %in% strsplit(vl, ",")[[1]]
+    }, answer_length, ValidLengths)
+  )
+
+
+## Now count
+count <- validated %>% group_by(model,name) %>% summarize(Count=n()) %>% group_by(model, Count) %>% summarize(Names = paste(name, collapse=", "))
+count
+```
+
+
+## Minimum number of trials per model
+
+```{r}
+count %>% group_by(model) %>% summarize(MinCount = min(Count), MaxCount = max(Count), MinNeeded = 100-MinCount)
+```
+
+## Average minutes per 241 questions
+
+```{r}
+
+model_time <- data %>% filter(!is.na(time)) %>% 
+  group_by(run_id, model) %>% 
+  arrange(time) %>% 
+  mutate(diff = lead(time) - time) %>% 
+  select(c(model, run_id, diff))
+
+#max_diff = max(model_time$diff, na.rm=TRUE)
+#model_time <- model_time %>% filter(diff < max_diff) 
+
+ggplot(model_time, aes(y=diff, x = model)) + geom_boxplot() + theme_classic()
+
+```
+
+```{r}
+
+formatted_time <- function(min){
+  if_else(min < 60, 
+  paste(round(min,2), "min.", sep=" "), 
+  paste(round(min/60,2), "hr.", sep = " "))
+}
+
+final_model_time <- model_time %>% ungroup() %>% group_by(model) %>% filter(!is.na(diff)) %>%
+  filter(between(diff, quantile(diff, 0.05), quantile(diff, 0.95))) %>%
+  summarize(avg_min = mean(diff, na.rm = TRUE)*241/60, avg_time = formatted_time(avg_min)) %>% mutate(time_10 = formatted_time(10*avg_min), time_100 = formatted_time(100*avg_min), total_time_100 = formatted_time(sum(avg_min*100))) %>% arrange(avg_min) %>% select(c(model, avg_time, time_10, time_100, total_time_100))
+
+final_model_time
+
+```

@@ -1,0 +1,26 @@
+```{r}
+library(tidyverse)
+library(purrr)
+
+expand_range <- function(x) {
+  map_chr(x, ~ {
+    .x |> str_split(",\\s*") |> unlist() |>
+      map_chr(~ if (str_detect(.x, "-")) {
+        nums <- as.numeric(str_split(.x, "-")[[1]])
+        paste(seq(nums[1], nums[2]), collapse = ",")
+      } else .x) |>
+      paste(collapse = ",")
+  })
+}
+
+questions <- read_csv("prompts/WVS_prompts_v4_English - Questions.csv") %>% mutate(Original_ID = expand_range(Original_ID), ValidIntegers = expand_range(ValidIntegers), ValidLengths = expand_range(ValidLengths))
+
+additional_content <- read_csv("prompts/WVS_prompts_v4_English - Additional content.csv")
+names <- names(additional_content)
+additional_content <- additional_content %>% unlist() %>% as.vector() %>% setNames(names)
+
+prompts <- questions %>% mutate(Before = additional_content[Before], After = additional_content[After], Prompt = paste(Before, Question, After, sep = "\n"), Instructions = additional_content[Instructions]) %>% select(Original_ID, Name, Prompt, Instructions, ValidIntegers, ValidLengths)
+
+write_csv(prompts, "prompts/processed_prompts.csv")
+
+```
