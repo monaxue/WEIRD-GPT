@@ -12,3 +12,5 @@ test*
 data
 tests*
 *history
+_pycache_
+large
