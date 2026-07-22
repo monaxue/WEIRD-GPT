@@ -3,7 +3,7 @@
 library(tidyverse)
 library(ggplot2)
 
-raw <- read_csv("data/full_dataset.csv")
+raw <- read_csv("data/raw/full_dataset.csv")
 data <- raw %>% filter(answer != "")
 
 prompts <- read_csv("prompts/processed_prompts.csv") %>% mutate(id = Original_ID, name = Name, ValidLengths = as.character(ValidLengths)) %>% select(id, name, ValidIntegers, ValidLengths)
@@ -53,7 +53,7 @@ cleaned
 
 ```{r}
 
-american <- cleaned %>% filter((str_starts(model, "meta") | str_starts(model, "oepenai") | str_starts(model, "google") | str_starts(model, "anthropic")) & temperature == 2.0)
+american <- cleaned %>% filter((str_starts(model, "meta") | str_starts(model, "openai") | str_starts(model, "google") | str_starts(model, "anthropic")) & temperature == 2.0)
 
 american %>% group_by(model, wvs_id) %>% summarize(count=n())
 

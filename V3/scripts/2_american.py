@@ -10,13 +10,14 @@ models = [
  "google/gemini-3.1-flash-lite",
  "openai/gpt-5.4-mini",
  "anthropic/claude-haiku-4.5",
+ "openai/gpt-5.6-luna",
  ]
 
 asyncio.run(
     main(
         db_name = 'american',
         prompts=prompts, 
-        iterations=90, 
+        iterations=100, 
         temperature=2, 
         models=models
         )
